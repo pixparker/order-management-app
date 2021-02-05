@@ -1,3 +1,9 @@
 {
-    "portNumber":"8001"
+    "portNumber":"8001",
+    "sql":{
+        "user": "sa",
+        "password": "123@abc",
+        "server": "localhost", 
+        "database": "OrderManager"
+    }
 }

@@ -5,7 +5,7 @@ import paymentService from './services/payment-service';
 
 const app = express();
 const PORT = config.portNumber;
-app.get('/', (req,res) => res.send( 'Payment service'));
+app.get('/', (req,res) => res.send( 'Payments App'));
 
 
 app.get('/payments/process',async (req,res)=>{
@@ -29,5 +29,5 @@ app.get('/payments/process',async (req,res)=>{
 });
 
 app.listen(PORT, () => {
-  console.log(`⚡️[server]:Payment Server is running at https://localhost:${PORT}`);
+  console.log(`⚡️Payments Server is running at https://localhost:${PORT}`);
 });

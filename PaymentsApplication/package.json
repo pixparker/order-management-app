@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon server.ts",
     "build": "tsc --project ./",
-    "test": "mocha -r ts-node/register tests/unit-test.ts"
+    "test": "mocha -r ts-node/register tests/**/*.ts"
   },
   "author": "Ali Bazdaran",
   "license": "ISC",
