@@ -2,27 +2,20 @@ import sql from 'mssql'
 import { Guid } from "guid-typescript";
 import {Order} from '../types/order'
 import { MSSQL } from './mssql';
-import { create } from 'domain';
+
 
 export class OrderRepository{
-
-    private connection : sql.ConnectionPool;
 
     constructor() {
         console.log('rep constructing');
         
     }
 
-    private async openConnection(){
-        if(this.connection) return;
-        this.connection = await MSSQL.getConnectionPool();
+    private async openConnection():Promise<sql.ConnectionPool>{
+        return await MSSQL.getConnectionPool();
     }
     
-    public async closeConnection(){
-        if(!this.connection) return;
-        await this.connection.close();
-        this.connection = null as any;      
-    }
+    
 
     public async addNew(order:Order):Promise<boolean>{
         await this.openConnection();
@@ -32,7 +25,8 @@ export class OrderRepository{
         createdOn.setMilliseconds(0);
         
 
-        const request = this.connection.request();
+        const connection = await this.openConnection();
+        const request = connection.request();
         request.input('id',sql.UniqueIdentifier,orderId);
         request.input('customerName',sql.NVarChar,order.customerName);
         request.input('createdOn',sql.DateTime,createdOn);
@@ -80,16 +74,15 @@ export class OrderRepository{
         order.id = orderId.toString().toUpperCase();
         order.createdOn = createdOn;
         order.updatedOn = createdOn;
+        connection.close();
         return true;
     }
 
 
     public async getById(id:string|null):Promise<Order>{
         if(!id) return null as any;
-
-        await this.openConnection();
-        const request = this.connection.request();        
-        const result = await  this.connection.query(`select
+        const connection = await this.openConnection();        
+        const result = await  connection.query(`select
             id,
             customerName,
             createdOn,
@@ -103,10 +96,9 @@ export class OrderRepository{
             discount,
             promotion
         from Orders where id= '${id}'`);
-        const order : Order =  result.recordset[0] as any;
-        //order.createdOn = new Date(order.createdOn);
-        //order.updatedOn = new Date(order.UpdatedOn);
+        const order : Order =  result.recordset[0] as any;        
         order.id = order.id.toUpperCase();
+        connection.close();
         return order;
     }
 }

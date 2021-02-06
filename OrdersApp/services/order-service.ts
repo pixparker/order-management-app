@@ -21,7 +21,7 @@ export class OrderService {
         order.totalQuantity = order.totalQuantity||0;
         order.state = OrderStates.Created;
 
-        await this.orderRepository.addNew(order);
+        await this.orderRepository.addNew(order);        
         return order;
     }
 

@@ -1,9 +1,8 @@
 import { expect } from 'chai'
-import { assert } from 'console';
 import 'mocha'
 import {Order} from '../types/order'
 import {OrderRepository} from '../data/orderRepository'
-import { METHODS } from 'http';
+
 
 describe('Order Repository',async ()=>{
     const orderRepository =  new OrderRepository();
