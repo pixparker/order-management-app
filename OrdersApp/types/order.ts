@@ -3,7 +3,6 @@ export class Order{
     customerName:string;
     createdOn:Date;
     updatedOn:Date;
-    userPinCode:string;
     totalQuantity:number;
     note:string;
     payAmount:number;

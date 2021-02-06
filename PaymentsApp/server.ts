@@ -1,24 +1,33 @@
-import express from 'express';
-import config from './config.json';
-import paymentService from './services/payment-service';
+import express from 'express'
+import bodyParser from 'body-parser'
+import config from './config.json'
+import paymentService from './services/payment-service'
 
 
 const app = express();
+var jsonParser = bodyParser.json()
 const PORT = config.portNumber;
 app.get('/', (req,res) => res.send( 'Payments App'));
 
+app.get('/test', (req,res) => res.send( 'test Payments App'));
 
-app.get('/payments/process',async (req,res)=>{
 
-  let isConfirmed = false;
-  let responseCode = 0;
-  let responseMessage = '';
+//mock auth check (bearer token)
+app.use((req,res,next)=>{
+  const authorization = req.headers.authorization;
+  if(!authorization){
+    res.status(401).send('Payments App:Unauthorized');    
+  }
+  else{
+    next();
+  }
+});
 
+app.post('/payments/process',jsonParser, async (req,res)=>{
   
-  isConfirmed = await paymentService.processPayment();
-
-  responseCode = isConfirmed?1:2;
-  responseMessage = isConfirmed?'Payment is confirmed':'Payment is declined';
+  const isConfirmed = await paymentService.processPayment();
+  const responseCode = isConfirmed?1:2;
+  const responseMessage = isConfirmed?'Payment is confirmed':'Payment is declined';
 
 
   res.send({
@@ -29,5 +38,5 @@ app.get('/payments/process',async (req,res)=>{
 });
 
 app.listen(PORT, () => {
-  console.log(`⚡️Payments Server is running at https://localhost:${PORT}`);
+  console.log(`⚡️Payments Server is running at http://localhost:${PORT}`);
 });

@@ -26,12 +26,10 @@ export class OrderRepository{
         
 
         const connection = await this.openConnection();
-        const request = connection.request();
-        request.input('id',sql.UniqueIdentifier,orderId);
+        const request = connection.request();        request.input('id',sql.UniqueIdentifier,orderId);
         request.input('customerName',sql.NVarChar,order.customerName);
         request.input('createdOn',sql.DateTime,createdOn);
-        request.input('updatedOn',sql.DateTime,createdOn);
-        request.input('userPinCode',sql.NVarChar,order.userPinCode);
+        request.input('updatedOn',sql.DateTime,createdOn);        
         request.input('totalQuantity',sql.Int,order.totalQuantity||0);
         request.input('note',sql.NVarChar,order.note);
         request.input('payAmount',sql.Float,order.payAmount);
@@ -45,7 +43,6 @@ export class OrderRepository{
             customerName,
             createdOn,
             updatedOn,
-            userPinCode,
             totalQuantity,
             note,
             payAmount,
@@ -58,7 +55,6 @@ export class OrderRepository{
                 @customerName,
                 @createdOn,
                 @updatedOn,
-                @userPinCode,
                 @totalQuantity,
                 @note,
                 @payAmount,
@@ -87,7 +83,6 @@ export class OrderRepository{
             customerName,
             createdOn,
             updatedOn,
-            userPinCode,
             totalQuantity,
             note,
             payAmount,
