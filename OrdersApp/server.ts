@@ -1,12 +1,12 @@
 import express from 'express'
 import config from './config.json'
-import {OrdersController} from './controllers/orders-controller'
 import {MSSQL} from './data/mssql'
+import { OrderRepository } from './data/orderRepository';
+import { Order } from './types/order';
 
 
 const app = express();
 const PORT = config.portNumber;
-const controller = OrdersController;
 const sql = MSSQL;
 
 
@@ -17,12 +17,15 @@ app.get('/test',async (req,res)=>{
 
   try{
     
-    let pool = await sql.getConnection();
+    const repo = new OrderRepository();
+    let order = <Order>{
+      customerName:'cname',
+      sellerName:'seller name',
+      totalQuantity:20,
+      payAmount:10.23,
+    };
     
-    const result = await pool.request() .query("select top 10 * from users");
-
-    
-
+    const result= await repo.getById('49CBADCE-90F8-8E00-54B9-7FA742BBFB59');
   
     res.send(JSON.stringify(result));
   }

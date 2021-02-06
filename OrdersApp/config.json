@@ -4,6 +4,10 @@
         "user": "sa",
         "password": "123@abc",
         "server": "localhost", 
-        "database": "OrderManager"
+        "database": "OrderManager",
+        "options": {
+            "encrypt": true,
+            "enableArithAbort": true
+        }
     }
 }
