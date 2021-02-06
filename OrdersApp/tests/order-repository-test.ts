@@ -3,6 +3,7 @@ import { assert } from 'console';
 import 'mocha'
 import {Order} from '../types/order'
 import {OrderRepository} from '../data/orderRepository'
+import { METHODS } from 'http';
 
 describe('Order Repository',async ()=>{
     const orderRepository =  new OrderRepository();
@@ -13,6 +14,9 @@ describe('Order Repository',async ()=>{
         sellerName:'test: seller name',
         totalQuantity: Math.floor(Math.random()*1000),
         payAmount:+(Math.random()*1000).toFixed(2),
+        state: Math.floor(Math.random()*4),
+        discount: 0,
+        promotion:'test: promotion name'
     };
     
         it('should insert new order to database without error',async()=>{

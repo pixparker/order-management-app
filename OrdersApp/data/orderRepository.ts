@@ -8,6 +8,11 @@ export class OrderRepository{
 
     private connection : sql.ConnectionPool;
 
+    constructor() {
+        console.log('rep constructing');
+        
+    }
+
     private async openConnection(){
         if(this.connection) return;
         this.connection = await MSSQL.getConnectionPool();
@@ -37,6 +42,9 @@ export class OrderRepository{
         request.input('note',sql.NVarChar,order.note);
         request.input('payAmount',sql.Float,order.payAmount);
         request.input('sellerName',sql.NVarChar,order.sellerName);        
+        request.input('state',sql.SmallInt,order.state);        
+        request.input('discount',sql.Float,order.discount);        
+        request.input('promotion',sql.NVarChar,order.promotion);        
         const command= `
         insert into Orders (
             id,
@@ -47,7 +55,10 @@ export class OrderRepository{
             totalQuantity,
             note,
             payAmount,
-            sellerName
+            sellerName,
+            state,
+            discount,
+            promotion            
             ) values (
                 @id,
                 @customerName,
@@ -57,7 +68,10 @@ export class OrderRepository{
                 @totalQuantity,
                 @note,
                 @payAmount,
-                @sellerName
+                @sellerName,
+                @state,
+                @discount,
+                @promotion
             )
         `;
 
@@ -84,7 +98,10 @@ export class OrderRepository{
             totalQuantity,
             note,
             payAmount,
-            sellerName
+            sellerName,
+            state,
+            discount,
+            promotion
         from Orders where id= '${id}'`);
         const order : Order =  result.recordset[0] as any;
         //order.createdOn = new Date(order.createdOn);
