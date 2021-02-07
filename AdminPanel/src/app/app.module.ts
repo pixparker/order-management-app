@@ -21,6 +21,10 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
+import {MatTableModule} from '@angular/material/table';
+import { CurrencyPipe, DateTimePipe } from './pipes';
+
+
 
 @NgModule({
   declarations: [
@@ -30,8 +34,9 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
     DashboardComponent,
     OrdersListComponent,
     CreateOrderComponent,
-    
 
+    DateTimePipe,
+    CurrencyPipe,
   ],
   imports: [
     BrowserModule,
@@ -46,8 +51,8 @@ import { AuthInterceptor } from './http-interceptors/auth-interceptor';
     ReactiveFormsModule,
     MatInputModule,
     MatSidenavModule,
-    HttpClientModule
-    
+    HttpClientModule,
+    MatTableModule,
   ],
   exports:[
     MatInputModule,

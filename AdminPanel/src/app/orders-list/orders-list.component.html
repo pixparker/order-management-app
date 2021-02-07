@@ -1,6 +1,80 @@
-<h2>
-Orders List
-</h2>
+<div class="header">
+    <h1 style="display: inline;">
+        Orders List
+        </h1>
+        <div style="float: right;">
+            <button mat-flat-button color="accent">New Order</button>
+        </div>
+</div>
+
+<!-- 
+<table mat-table [dataSource]="orders" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Customer </th>
+      <td mat-cell *matCellDef="let element">  </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="[displayColumns]"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+  </table>
+  
+   -->
 
 
-<button (click)="test()">Test</button>
+
+   <table mat-table [dataSource]="orders" class="mat-elevation-z8">
+
+    <ng-container matColumnDef="customerName">
+      <th mat-header-cell *matHeaderCellDef> Customer </th>
+      <td mat-cell *matCellDef="let element"> {{element.customerName}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="createdOn">
+        <th mat-header-cell *matHeaderCellDef> Create </th>
+        <td mat-cell *matCellDef="let element"> {{element.createdOn|dateTime}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="updatedOn">
+        <th mat-header-cell *matHeaderCellDef> Update </th>
+        <td mat-cell *matCellDef="let element"> {{element.updatedOn|dateTime}} </td>
+      </ng-container>
+  
+
+      <ng-container matColumnDef="totalQuantity">
+        <th mat-header-cell *matHeaderCellDef> Quantity </th>
+        <td mat-cell *matCellDef="let element"> {{element.totalQuantity}} </td>
+      </ng-container>
+   
+
+      <ng-container matColumnDef="payAmount">
+        <th mat-header-cell *matHeaderCellDef> Pay Amount </th>
+        <td mat-cell *matCellDef="let element"> {{element.payAmount|currency}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="note">
+        <th mat-header-cell *matHeaderCellDef> Note </th>
+        <td mat-cell *matCellDef="let element"> {{element.note}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="state">
+        <th mat-header-cell *matHeaderCellDef> State </th>
+        <td mat-cell *matCellDef="let element"> 
+            <div class="state" [ngClass]="'state-'+element.state">
+
+            </div>            
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+            <button class="right-margin" mat-stroked-button color="primary" (click)="onDetail(element)">Detail</button>
+            <button mat-stroked-button color="accent" (click)="onCancel(element)" [disabled]="element.state===2">Cancel</button>
+            
+        </td>
+      </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
+  </table>

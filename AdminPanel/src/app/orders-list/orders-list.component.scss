@@ -1,0 +1,39 @@
+.right-margin{
+    margin-right: 4px;
+}
+
+.state:after{
+    display: inline-block;
+    background-color: #ffbc00;
+    width: 95px;
+    content: "Created";
+    border-radius: 5px;
+    height: 31px;
+    text-align: center;
+    color: white;
+    padding-top: 7px;
+    box-sizing: border-box;
+    
+    
+}
+
+
+    // Created:0,
+    // Confirmed:1,
+    // Canceled:2,
+    // Delivered:3,
+
+.state.state-1:after{
+    background-color: green;
+    content: "Confirmed";
+}
+
+.state.state-2:after{
+    background-color: #f92e73;
+    content: "Canceled";
+}
+
+.state.state-3:after{
+    background-color: #3badff;
+    content: "Delivered";
+}

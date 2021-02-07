@@ -18,7 +18,7 @@ const routes: Routes = [
     canActivate: [AuthService]
   },
   {
-    path: 'orders',
+    path: 'orders-list',
     component: OrdersListComponent,
     canActivate: [AuthService]
   },
