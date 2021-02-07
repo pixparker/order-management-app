@@ -65,7 +65,7 @@ export class OrderRepository{
         `;
 
         const result = await request.query(command);
-        if(result.rowsAffected.length!=1) return false;        
+        if(result.rowsAffected[0]!=1) return false;        
         order.id = orderId.toString().toUpperCase();
         order.createdOn = createdOn;
         order.updatedOn = createdOn;
@@ -97,6 +97,29 @@ export class OrderRepository{
         return order;
     }
 
+    public async getAll():Promise<Order[]>{
+        const connection = await this.openConnection();        
+        const request = connection.request();
+        const result = await  request.query(`select top 1000
+            id,
+            customerName,
+            createdOn,
+            updatedOn,
+            totalQuantity,
+            note,
+            payAmount,
+            sellerName,
+            state,
+            discount,
+            promotion
+        from Orders order by createdOn desc`);
+        const order : Order =  result.recordset[0] as any;        
+        order.id = order.id.toUpperCase();
+        connection.close();        
+        return result.recordset;
+    }
+
+
 
     public async updateOrderState(id:string, state:number):Promise<boolean>{
         if(!id) return false;
@@ -113,6 +136,6 @@ export class OrderRepository{
         const result = await request.query(command);
         
         connection.close();
-        return result.rowsAffected.length==1;
+        return result.rowsAffected[0]==1;
     }
 }

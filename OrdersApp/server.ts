@@ -41,6 +41,7 @@ const resolve = (name:string,req:any)=>{
 //mock auth check (bearer token)
 app.use((req,res,next)=>{
   const authorization = req.headers.authorization;
+  
   if(!authorization){
     res.status(401).send('Orders App: Unauthorized');    
   }
@@ -53,7 +54,17 @@ app.use((req,res,next)=>{
 //inform app name
 app.get('/', (req,res) => res.send( 'Orders App'));
 
-
+//get orders list
+app.get('/orders/all', async (req,res)=>{
+  try{
+    const orderService:OrderService = resolve('orderService',req);
+    const orders = await orderService.getOrdersList();
+    res.send(orders);
+  }
+  catch(e){
+    res.status(500).send(e.message);
+  }
+})
 
 //get order by id
 app.get('/orders/:id',async (req,res)=>{
@@ -69,6 +80,8 @@ app.get('/orders/:id',async (req,res)=>{
 })
 
 
+
+
 //create order
 app.post('/orders/create',jsonParser, async (req,res)=>{
   try{    
@@ -81,6 +94,26 @@ app.post('/orders/create',jsonParser, async (req,res)=>{
     res.status(500).send(e.message);
   }
 })
+
+
+app.post('/orders/cancel/:id', async (req,res)=>{
+  try{    
+    const id = req.params.id;
+    const orderService:OrderService = resolve('orderService',req);    
+    const result =  await orderService.cancelOrder(id);
+    if(result){
+      res.send('Done');
+    }
+    else{
+      res.status(500).send('Error!')
+    }
+  }
+  catch(e){
+    res.status(500).send(e.message);
+  }
+})
+
+
 
 
 

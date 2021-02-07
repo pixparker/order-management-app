@@ -25,6 +25,10 @@ export class AuthService  implements CanActivate  {
     return true;
   }
 
+  public getToken(){
+    return 'test token';
+  }
+
   public isAuthenticated(): boolean {
     const token = localStorage.getItem('token');
     //mock auth

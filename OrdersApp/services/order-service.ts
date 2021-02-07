@@ -73,4 +73,12 @@ export class OrderService {
             }, (AUTO_DELIVERY_SECONDS * 1000));
         }
     }
+
+    public async getOrdersList():Promise<Order[]>{
+        return await this.orderRepository.getAll();
+    }
+
+    public async cancelOrder(orderId:string):Promise<boolean>{
+        return await this.orderRepository.updateOrderState(orderId,OrderStates.Canceled);
+    }
 }

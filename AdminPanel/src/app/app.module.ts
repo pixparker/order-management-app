@@ -13,14 +13,14 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatSidenavModule} from '@angular/material/sidenav';
-
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { LoginPageComponent } from './login-page/login-page.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { OrdersListComponent } from './orders-list/orders-list.component';
 import { CreateOrderComponent } from './create-order/create-order.component';
+import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -30,6 +30,7 @@ import { CreateOrderComponent } from './create-order/create-order.component';
     DashboardComponent,
     OrdersListComponent,
     CreateOrderComponent,
+    
 
   ],
   imports: [
@@ -44,14 +45,21 @@ import { CreateOrderComponent } from './create-order/create-order.component';
     MatFormFieldModule,
     ReactiveFormsModule,
     MatInputModule,
-    MatSidenavModule
+    MatSidenavModule,
+    HttpClientModule
     
   ],
   exports:[
     MatInputModule,
     MatFormFieldModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 
