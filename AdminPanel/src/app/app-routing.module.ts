@@ -14,7 +14,8 @@ const routes: Routes = [
   },
   {
     path: '',
-    component: DashboardComponent,
+    //component: DashboardComponent,
+    component: OrdersListComponent,
     canActivate: [AuthService]
   },
   {

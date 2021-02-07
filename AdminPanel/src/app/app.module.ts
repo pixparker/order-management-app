@@ -14,6 +14,8 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
 
 import { LoginPageComponent } from './login-page/login-page.component';
 import { OrderDetailComponent } from './order-detail/order-detail.component';
@@ -53,6 +55,7 @@ import { CurrencyPipe, DateTimePipe } from './pipes';
     MatSidenavModule,
     HttpClientModule,
     MatTableModule,
+    MatSnackBarModule
   ],
   exports:[
     MatInputModule,

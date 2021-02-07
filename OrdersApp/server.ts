@@ -102,10 +102,10 @@ app.post('/orders/cancel/:id', async (req,res)=>{
     const orderService:OrderService = resolve('orderService',req);    
     const result =  await orderService.cancelOrder(id);
     if(result){
-      res.send('Done');
+      res.send({message:'OK'});
     }
     else{
-      res.status(500).send('Error!')
+      res.status(500).send({message:'Error'})
     }
   }
   catch(e){

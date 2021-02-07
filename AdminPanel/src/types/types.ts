@@ -1,8 +1,8 @@
 export class Order{
     id:string;
     customerName:string;
-    createdOn:Date;
-    updatedOn:Date;
+    createdOn:string;
+    updatedOn:string;
     totalQuantity:number;
     note:string;
     payAmount:number;

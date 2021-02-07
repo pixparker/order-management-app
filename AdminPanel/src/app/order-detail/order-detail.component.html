@@ -1,1 +1,80 @@
-<p>order-detail works!</p>
+<div class="header">
+    <h1 class="title">
+        Order Detail
+        </h1>
+        <div class="buttons">
+            <button mat-flat-button (click)="onBack()" >Back to List</button>
+        </div>
+</div>
+
+
+<div class="loading" *ngIf="isLoading">Loading...</div>
+
+
+<mat-card>
+
+    <div class="info-block">
+        <div class="lable">Create</div>
+        <div class="value">
+            {{order.createdOn|dateTime}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Updat</div>
+        <div class="value">
+            {{order.updatedOn|dateTime}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Customer</div>
+        <div class="value">
+            {{order.customerName}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Quantity</div>
+        <div class="value">
+            {{order.totalQuantity}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Pay Amount</div>
+        <div class="value">
+            {{order.payAmount|currency}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Seller</div>
+        <div class="value">
+            {{order.sellerName}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">State</div>
+        <div class="value">
+            <div class="state" [ngClass]="'state-'+order.state">
+            </div>                     
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Promotion</div>
+        <div class="value">
+            {{order.promotion}}
+        </div>
+    </div>
+
+    <div class="info-block">
+        <div class="lable">Note</div>
+        <div class="value">
+            {{order.note}}
+        </div>
+    </div>
+
+</mat-card>

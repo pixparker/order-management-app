@@ -18,6 +18,6 @@ export class LoginPageComponent implements OnInit {
 
   public async onSubmit(){
     await this.authService.login();
-    this.router.navigate(['orders']);
+    this.router.navigate(['orders-list']);
   }
 }
