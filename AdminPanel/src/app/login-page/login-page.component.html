@@ -1,0 +1,41 @@
+<div class="container">
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Login</mat-card-title>            
+        </mat-card-header>
+
+
+          <mat-card-content>
+
+
+            <p>
+                <mat-form-field appearance="standard">
+                  <mat-label>Username</mat-label>
+                  <input matInput placeholder="" />                  
+                  <mat-hint>Doesn't matter</mat-hint>
+                </mat-form-field>
+              </p>
+            
+
+              <p>
+                <mat-form-field appearance="standard">
+                  <mat-label>Password</mat-label>
+                  <input matInput placeholder="" />                  
+                  <mat-hint>Doesn't matter</mat-hint>
+                </mat-form-field>
+              </p>
+
+
+            
+            
+          </mat-card-content>
+          <mat-card-actions>
+            <button mat-flat-button color="primary" (click)="onSubmit()">LOGIN</button>
+            <button mat-button>REGISTER</button>
+          </mat-card-actions>
+
+    </mat-card>
+</div>
+
+
+

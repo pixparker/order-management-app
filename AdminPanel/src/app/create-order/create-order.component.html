@@ -1,0 +1,36 @@
+
+
+
+<mat-card>
+
+    <mat-card-header>
+        <mat-card-title>Create Order</mat-card-title>            
+    </mat-card-header>
+
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+  
+
+        
+
+
+        <label>
+          Customer Name:
+          <input type="text" formControlName="customerName">
+        </label>
+      
+        <label>
+          Note:
+          <input type="text" formControlName="note">
+        </label>
+      
+      </form>
+    
+    
+      <mat-card-actions>
+      <button mat-flat-button color="primary" (click)="onSubmit()">Create Order</button>
+      <button mat-button (click)="onCancel()">Cancel</button>
+      </mat-card-actions>
+
+</mat-card>
+
+{{orderForm.value|json}}
