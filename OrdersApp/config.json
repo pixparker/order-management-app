@@ -10,5 +10,5 @@
             "enableArithAbort": true
         }
     },
-    "paymentsAppEndPoint":"http://localhost:8002/payments/"
+    "paymentsAppEndPoint":"http://localhost:8002/"
 }

@@ -25,8 +25,8 @@ container.register({
 app.use((req, res, next) => {
   const scopedContainer = container.createScope();
   scopedContainer.register({
-    orderRepository:asClass(OrderRepository),
-    orderService:asClass(OrderService),
+    orderRepository:asClass(OrderRepository).scoped(),
+    orderService:asClass(OrderService).scoped(),
     authorization:asFunction(()=>req.headers.authorization),
   });
   (req as any).scope = scopedContainer;
@@ -86,8 +86,9 @@ app.post('/orders/create',jsonParser, async (req,res)=>{
 
 app.get('/test',async (req,res)=>{
   try{
-    const orderService:OrderService = resolve('orderService',req);
-    const result = await orderService.processPayment({payAmount:100} as any);
+
+    const orderRepository:OrderRepository = resolve('orderRepository',req);
+    const result = await orderRepository.updateOrderState('2B8C8D80-06F7-AC07-2A49-16272110F166',20);
     res.send(result);
   }
   catch(e){

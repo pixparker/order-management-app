@@ -6,9 +6,8 @@ import { MSSQL } from './mssql';
 
 export class OrderRepository{
 
-    constructor() {
-        console.log('rep constructing');
-        
+    constructor() {        
+        console.log('repo initialized');
     }
 
     private async openConnection():Promise<sql.ConnectionPool>{
@@ -78,7 +77,8 @@ export class OrderRepository{
     public async getById(id:string|null):Promise<Order>{
         if(!id) return null as any;
         const connection = await this.openConnection();        
-        const result = await  connection.query(`select
+        const request = connection.request();
+        const result = await  request.query(`select
             id,
             customerName,
             createdOn,
@@ -95,5 +95,24 @@ export class OrderRepository{
         order.id = order.id.toUpperCase();
         connection.close();
         return order;
+    }
+
+
+    public async updateOrderState(id:string, state:number):Promise<boolean>{
+        if(!id) return false;
+        id=id.toUpperCase();
+        const updatedOn = new Date();
+        updatedOn.setMilliseconds(0);
+
+        const connection = await this.openConnection();
+        const request = connection.request();        
+        request.input('id',sql.UniqueIdentifier,id);
+        request.input('updatedOn',sql.DateTime,updatedOn);     
+
+        const command = `update orders set state=${state},updatedOn=@updatedOn where id=@id`;
+        const result = await request.query(command);
+        
+        connection.close();
+        return result.rowsAffected.length==1;
     }
 }

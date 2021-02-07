@@ -9,8 +9,6 @@ var jsonParser = bodyParser.json()
 const PORT = config.portNumber;
 app.get('/', (req,res) => res.send( 'Payments App'));
 
-app.get('/test', (req,res) => res.send( 'test Payments App'));
-
 
 //mock auth check (bearer token)
 app.use((req,res,next)=>{
@@ -23,7 +21,7 @@ app.use((req,res,next)=>{
   }
 });
 
-app.post('/payments/process',jsonParser, async (req,res)=>{
+app.post('/process-payment',jsonParser, async (req,res)=>{
   
   const isConfirmed = await paymentService.processPayment();
   const responseCode = isConfirmed?1:2;
