@@ -15,6 +15,8 @@ import { MatInputModule } from '@angular/material/input';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+
 
 
 import { LoginPageComponent } from './login-page/login-page.component';
@@ -55,7 +57,8 @@ import { CurrencyPipe, DateTimePipe } from './pipes';
     MatSidenavModule,
     HttpClientModule,
     MatTableModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatProgressSpinnerModule
   ],
   exports:[
     MatInputModule,

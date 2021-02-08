@@ -35,7 +35,7 @@ CREATE TABLE [dbo].[Orders](
 
 3- Install node packages for all projects (AdminPanel,OrdersApp,PaymentsApp).
 
-4- User `npm start` in all 3 project to start development servers. 
+4- Run `npm start` in all 3 project to start development servers. 
 
 5- Navigate to `http://localhost:4200/` 
 

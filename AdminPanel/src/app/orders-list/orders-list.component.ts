@@ -28,7 +28,7 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
   constructor(
     public router: Router,
     public orderService:OrderService,
-    private _snackBar: MatSnackBar
+    public snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -61,12 +61,12 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
     
     try{
       await this.orderService.cancelOrder(order);
-      this._snackBar.open('Order canceled','', {
+      this.snackBar.open('Order canceled','', {
         duration: 2000,
       });
     }
     catch(e){
-      this._snackBar.open('Error!','', {
+      this.snackBar.open('Error!','', {
         duration: 2000,
       });
 

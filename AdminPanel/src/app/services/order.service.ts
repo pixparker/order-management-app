@@ -15,6 +15,8 @@ export class OrderService {
     public httpClient:HttpClient
   ) { }
 
+  public orderUpdate = new Subject<Order>();
+  public orderUpdate$ = this.orderUpdate.asObservable();
   
 
   public async getOrdersList():Promise<Order[]>{
@@ -28,6 +30,11 @@ export class OrderService {
     return result as any;
   }
 
+  public async createOrder(order:Order):Promise<Order>{
+    const result = await this.httpClient.post<Order>('/orders/create',order).toPromise();
+    this.orderUpdate.next(result);
+    return result;
+  }
 
   public async cancelOrder(order:Order):Promise<boolean>{
     await this.httpClient.post('/orders/cancel/'+order.id,{}).toPromise();    
@@ -39,9 +46,6 @@ export class OrderService {
 
 
 
-
-   public orderUpdate = new Subject<Order>();
-   public orderUpdate$ = this.orderUpdate.asObservable() //Has a $ 
 
 
 }

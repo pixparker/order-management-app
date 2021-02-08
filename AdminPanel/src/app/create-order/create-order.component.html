@@ -4,33 +4,83 @@
 <mat-card>
 
     <mat-card-header>
-        <mat-card-title>Create Order</mat-card-title>            
+        <mat-card-title>                    
+          <span>Create Order</span>
+          </mat-card-title>            
     </mat-card-header>
 
-    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
-  
+    <form  [formGroup]="form" (ngSubmit)="onSubmit()">
 
+      <div>
+        <mat-form-field >
+          <mat-label>Customer Name</mat-label>
+          <input matInput placeholder="" formControlName="customerName" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field >
+          <mat-label>Seller Name</mat-label>
+          <input matInput placeholder="" formControlName="sellerName" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field >
+          <mat-label>Total Quantity</mat-label>
+          <input type="number" matInput placeholder="" formControlName="totalQuantity" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field >
+          <mat-label>Total Discount</mat-label>
+          <input type="number" matInput placeholder="" formControlName="discount" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field >
+          <mat-label>Promotion</mat-label>
+          <input matInput placeholder="" formControlName="promotion" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
+
+      <div>
+        <mat-form-field >
+          <mat-label>Pay Amount</mat-label>
+          <input type="number" matInput placeholder="" formControlName="payAmount" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
         
 
-
-        <label>
-          Customer Name:
-          <input type="text" formControlName="customerName">
-        </label>
-      
-        <label>
-          Note:
-          <input type="text" formControlName="note">
-        </label>
+      <div>
+        <mat-form-field >
+          <mat-label>Note</mat-label>
+          <input type="number" matInput placeholder="" formControlName="note" />                  
+          <mat-hint></mat-hint>
+        </mat-form-field>
+      </div>
       
       </form>
     
     
       <mat-card-actions>
-      <button mat-flat-button color="primary" (click)="onSubmit()">Create Order</button>
-      <button mat-button (click)="onCancel()">Cancel</button>
+        
+      <button mat-flat-button color="primary" (click)="onSubmit()" [disabled]="isLoading">
+        
+
+        Create Order</button>
+      <button mat-button (click)="onCancel()" [disabled]="isLoading">Cancel</button>
+      <span *ngIf="isLoading" style="display: inline-block;"><mat-spinner [diameter]="20"></mat-spinner></span>
       </mat-card-actions>
 
 </mat-card>
 
-{{orderForm.value|json}}
+
