@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "admin-panel.fullname" . }}
+  labels:
+    app: {{ template "admin-panel.name" . }}
+    chart: {{ template "admin-panel.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 80
+      protocol: TCP
+      name: {{ .Values.service.portName }}
+  selector:
+    app: {{ template "admin-panel.name" . }}
+    release: {{ .Release.Name }}
+  

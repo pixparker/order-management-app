@@ -1,0 +1,65 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: {{ template "admin-panel.fullname" . }}
+  labels:
+    app: {{ template "admin-panel.name" . }}
+    chart: {{ template "admin-panel.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ template "admin-panel.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        app: {{ template "admin-panel.name" . }}
+        release: {{ .Release.Name }}
+    spec:
+      hostAliases:
+        - ip: "127.0.0.1"
+          hostnames:
+          - "foo.local"
+      containers:
+        - name: {{ .Chart.Name }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+           
+          env:
+            - name: SERVICE_HOST
+              value: {{ .Values.config.service_host | quote }}
+            - name: SERVICE_PORT
+              value: {{ .Values.config.service_port | quote }}
+            - name: GET_HOSTS_FROM
+              value: dns
+          ports:
+            - name: {{ .Values.service.portName }}
+              containerPort: 80
+              protocol: TCP
+          
+          
+          #livenessProbe:
+          #  httpGet:
+          #    path: /healthz
+          #    port: 80
+          #readinessProbe:
+          #  httpGet:
+          #    path: /movies
+          #    port: 80
+          resources:
+{{ toYaml .Values.resources | indent 12 }}
+    {{- with .Values.nodeSelector }}
+      nodeSelector:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.affinity }}
+      affinity:
+{{ toYaml . | indent 8 }}
+    {{- end }}
+    {{- with .Values.tolerations }}
+      tolerations:
+{{ toYaml . | indent 8 }}
+    {{- end }}
