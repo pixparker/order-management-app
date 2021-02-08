@@ -79,8 +79,9 @@ Run `npm run build`
 
   10 passing (773ms)
 </pre>
-<pre>
-  #Payments App:
+
+#Payments App:
+<pre>  
   Endpoints check
     √ should return confirmed or declined after called (70ms)
 
