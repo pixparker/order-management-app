@@ -1,14 +1,14 @@
 import express from 'express'
 import bodyParser, { json } from 'body-parser'
 import config from './config.json'
-import {MSSQL} from './data/mssql'
 import { OrderRepository } from './data/orderRepository'
 import {createContainer, asClass, asValue, asFunction } from 'awilix'
 import { Order } from './types/order'
 import { OrderService } from './services/order-service'
 
-
 const app = express();
+let io : any = {};
+
 var jsonParser = bodyParser.json()
 const container = createContainer();
 const PORT = config.portNumber;
@@ -16,7 +16,7 @@ const PORT = config.portNumber;
 
 //register global container
 container.register({
-
+  io:asFunction(()=>io),
 });
 
 
@@ -40,8 +40,10 @@ const resolve = (name:string,req:any)=>{
 
 //mock auth check (bearer token)
 app.use((req,res,next)=>{
+  const needAuth = req.url.toLocaleLowerCase().startsWith('/orders');
+  if(!needAuth) return next();
+
   const authorization = req.headers.authorization;
-  
   if(!authorization){
     res.status(401).send('Orders App: Unauthorized');    
   }
@@ -50,6 +52,11 @@ app.use((req,res,next)=>{
   }
 });
 
+app.all('/', function (request, response, next) {
+  response.header("Access-Control-Allow-Origin", "*");
+  response.header("Access-Control-Allow-Headers", "X-Requested-With");
+  next();
+});
 
 //inform app name
 app.get('/', (req,res) => res.send( 'Orders App'));
@@ -78,8 +85,6 @@ app.get('/orders/:id',async (req,res)=>{
     res.status(500).send(e.message);
   }
 })
-
-
 
 
 //create order
@@ -114,24 +119,27 @@ app.post('/orders/cancel/:id', async (req,res)=>{
 })
 
 
-
-
-
 app.get('/test',async (req,res)=>{
   try{
 
-    const orderRepository:OrderRepository = resolve('orderRepository',req);
-    const result = await orderRepository.updateOrderState('2B8C8D80-06F7-AC07-2A49-16272110F166',20);
-    res.send(result);
+    const orderService:OrderService = resolve('orderService',req);
+    orderService.emitOrderUpdate({id:123,customerName:'cname'}as any);
+    res.send('OK');
   }
   catch(e){
     res.status(500).send(e.message);
-  }
-   
-
+  }   
 });
 
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`Orders Server is running at http://localhost:${PORT}`);
 });
+
+io = require("socket.io")(server, { cors: { origin: '*' } });
+
+io.on("connection", function(socket: any) {
+  socket.on('disconnect', () => {
+  });
+});
+console.log('socket enabled');
