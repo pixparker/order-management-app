@@ -4,7 +4,7 @@ import config from './config.json'
 import paymentService from './services/payment-service'
 
 
-const app = express();
+export const app = express();
 var jsonParser = bodyParser.json()
 const PORT = config.portNumber;
 app.get('/', (req,res) => res.send( 'Payments App'));
@@ -27,7 +27,6 @@ app.post('/process-payment',jsonParser, async (req,res)=>{
   const responseCode = isConfirmed?1:2;
   const responseMessage = isConfirmed?'Payment is confirmed':'Payment is declined';
 
-
   res.send({
     code:responseCode,
     message:responseMessage, 
@@ -35,6 +34,6 @@ app.post('/process-payment',jsonParser, async (req,res)=>{
 
 });
 
-app.listen(PORT, () => {
+const server = app.listen(PORT, () => {
   console.log(`⚡️Payments Server is running at http://localhost:${PORT}`);
 });

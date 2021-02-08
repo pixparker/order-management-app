@@ -33,7 +33,7 @@ describe('Order Repository', async () => {
         orderToInsert.state = 50;
         await orderRepository.updateOrderState(orderToInsert.id,orderToInsert.state);
         const order = await orderRepository.getById(orderToInsert.id);
-        expect(orderToInsert).to.deep.equal(order);
+        expect(orderToInsert.state).to.deep.equal(order.state);
     });
 });
 

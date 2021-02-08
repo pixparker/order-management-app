@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Order } from 'src/types/types';
 import { OrderService } from '../services/order.service';
+import { WebsocketService } from '../services/websocket.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -13,7 +14,7 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     public route: ActivatedRoute,
     public router: Router,
-    public orderService:OrderService
+    public orderService:OrderService,    
   ) { }
 
   private orderId:string;
@@ -25,6 +26,8 @@ export class OrderDetailComponent implements OnInit {
     if(orderId) this.loadOrder(orderId);
   }
 
+
+  
   private async loadOrder(id:string){
     this.isLoading = true;
     this.order = await this.orderService.getOrderById(id);

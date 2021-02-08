@@ -2,7 +2,7 @@ import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { Order } from 'src/types/types';
+import { Order, OrderStates } from 'src/types/types';
 import { CreateOrderComponent } from '../create-order/create-order.component';
 import { OrderService } from '../services/order.service';
 
@@ -102,5 +102,10 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
     this.orders.forEach(p => newList.push(p));
     this.orders = newList;
     this.changeDetectorRef.detectChanges();
+
+    if (this.orderService.lastCreatedOrder && this.orderService.lastCreatedOrder.id === order.id) {
+      if (order.state == OrderStates.Delivered)
+        this.snackBar.open(`Order '${order.customerName}' delivered'`, '', { duration: 1500 });
+    }
   }
 }

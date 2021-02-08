@@ -48,4 +48,48 @@ Run `npm run test` in `OrdersApp` and `PaymentsApp`
 Run `npm run build`
 
 
+## Test History
+#Orders App
+ Endpoints check
+    √ should return http status 200 when called : /
+    √ should return http status 200 when called: orders/list (157ms)
+    √ should return http status 200 when called: orders/list (68ms)
+
+  MSSQL Server
+    √ should connect to ms-sql server properly
+    √ should find order table in datbase (55ms)
+
+  Order Repository
+    √ should insert new order to database without error (86ms)
+    √ shoul inserted order value and persisted value equal (52ms)
+    √ shoul update order status (117ms)
+
+  PaymentApp Availibility
+    √ should able to connect to payment app endpoint
+
+  Order Service
+    create order
+      √ should insert new order
+    get order
+      √ should get order
+
+
+  11 passing (773ms)
+
+
+  #Payments App:
+  Endpoints check
+    √ should return confirmed or declined after called (70ms)
+
+  Payment Service
+    Process
+      √ should randomly generate both confirmed & declined results in 10 invokes
+
+
+  2 passing (130ms)
+
+
+
+
+
 

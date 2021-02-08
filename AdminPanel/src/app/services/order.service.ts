@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Order, OrderStates } from 'src/types/types';
 import { Observer, Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
+import { WebsocketService } from './websocket.service';
 
 
 
@@ -12,11 +13,21 @@ import { HttpClient } from '@angular/common/http';
 export class OrderService {
 
   constructor(
-    public httpClient:HttpClient
-  ) { }
+    public httpClient:HttpClient,
+    public webSocketService:WebsocketService,    
+  ) {
 
+    webSocketService.registerListener('orderUpdate',(data:any)=>{
+      console.log('order update from server',data);
+      if(!data || !data.id) return;      
+      this.orderUpdate.next(data);
+    })
+  }
+
+  public lastCreatedOrder:Order;
   public orderUpdate = new Subject<Order>();
   public orderUpdate$ = this.orderUpdate.asObservable();
+  
   
 
   public async getOrdersList():Promise<Order[]>{
@@ -32,6 +43,7 @@ export class OrderService {
 
   public async createOrder(order:Order):Promise<Order>{
     const result = await this.httpClient.post<Order>('/orders/create',order).toPromise();
+    this.lastCreatedOrder = result;
     this.orderUpdate.next(result);
     return result;
   }

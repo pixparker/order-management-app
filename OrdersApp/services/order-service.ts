@@ -9,10 +9,12 @@ export class OrderService {
 
     private orderRepository:OrderRepository;
     private authorization:string;
+    private io:any;
 
     constructor(props:any) {
         this.orderRepository = props.orderRepository;
-        this.authorization = props.authorization;        
+        this.authorization = props.authorization; 
+        this.io = props.io;       
     }
 
 
@@ -27,18 +29,8 @@ export class OrderService {
         order.totalQuantity = order.totalQuantity||0;
         order.state = OrderStates.Created;
 
-        await this.orderRepository.addNew(order);    
-        
-        //process payment
-        const paymentIsConfirmed = await this.processPayment(order);
-
-        //change order state based on payment result
-        order.state = paymentIsConfirmed ? OrderStates.Confirmed:OrderStates.Canceled;
-        await this.orderRepository.updateOrderState(order.id,order.state);
-
-        //handle delivery
-        this.handleOrderDelivery(order);
-        
+        await this.orderRepository.addNew(order);            
+        this.handleOrderPayment(order);        
         return order;
     }
 
@@ -59,6 +51,22 @@ export class OrderService {
         return response.code==1;
     }
 
+    public async handleOrderPayment(order:Order){
+        //process payment
+        const paymentIsConfirmed = await this.processPayment(order);
+
+        //change order state based on payment result
+        order.state = paymentIsConfirmed ? OrderStates.Confirmed:OrderStates.Canceled;
+        await this.orderRepository.updateOrderState(order.id,order.state);
+
+        setTimeout(() => {
+            this.emitOrderUpdate(order);
+        }, 1000);
+
+
+        //handle delivery
+        this.handleOrderDelivery(order);
+    }
 
     public async handleOrderDelivery(order:Order){
         if(order.state === OrderStates.Confirmed){
@@ -66,10 +74,9 @@ export class OrderService {
                 
                 order.state = OrderStates.Delivered;
                 await this.orderRepository.updateOrderState(order.id,order.state);
-
-                //todo: pub order change
-                console.log('order delivered:'+order.id);
-
+                
+                this.emitOrderUpdate(order);
+                
             }, (AUTO_DELIVERY_SECONDS * 1000));
         }
     }
@@ -81,4 +88,10 @@ export class OrderService {
     public async cancelOrder(orderId:string):Promise<boolean>{
         return await this.orderRepository.updateOrderState(orderId,OrderStates.Canceled);
     }
+
+    public emitOrderUpdate(order:Order){
+        if(!this.io) return;
+        this.io.emit('orderUpdate',order);
+    }
+
 }

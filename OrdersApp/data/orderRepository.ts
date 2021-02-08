@@ -6,15 +6,12 @@ import { MSSQL } from './mssql';
 
 export class OrderRepository{
 
-    constructor() {        
-        console.log('repo initialized');
+    constructor() {                
     }
 
     private async openConnection():Promise<sql.ConnectionPool>{
         return await MSSQL.getConnectionPool();
     }
-    
-    
 
     public async addNew(order:Order):Promise<boolean>{
         await this.openConnection();

@@ -6,7 +6,7 @@ import {createContainer, asClass, asValue, asFunction } from 'awilix'
 import { Order } from './types/order'
 import { OrderService } from './services/order-service'
 
-const app = express();
+export const app = express();
 let io : any = {};
 
 var jsonParser = bodyParser.json()
@@ -73,6 +73,19 @@ app.get('/orders/all', async (req,res)=>{
   }
 })
 
+//check status
+app.get('/orders/state/:id',async (req,res)=>{
+  try{
+    const id = req.params.id;
+    const orderService:OrderService = resolve('orderService',req);
+    const order = await orderService.getOrderById(id);
+    res.send({state:order.state});
+  }
+  catch(e){
+    res.status(500).send(e.message);
+  }
+})
+
 //get order by id
 app.get('/orders/:id',async (req,res)=>{
   try{
@@ -119,17 +132,16 @@ app.post('/orders/cancel/:id', async (req,res)=>{
 })
 
 
-app.get('/test',async (req,res)=>{
-  try{
-
-    const orderService:OrderService = resolve('orderService',req);
-    orderService.emitOrderUpdate({id:123,customerName:'cname'}as any);
-    res.send('OK');
-  }
-  catch(e){
-    res.status(500).send(e.message);
-  }   
-});
+// app.get('/test',async (req,res)=>{
+//   try{
+//     const orderService:OrderService = resolve('orderService',req);
+//     orderService.emitOrderUpdate({id:123,customerName:'cname'}as any);
+//     res.send('OK');
+//   }
+//   catch(e){
+//     res.status(500).send(e.message);
+//   }   
+// });
 
 
 const server = app.listen(PORT, () => {
