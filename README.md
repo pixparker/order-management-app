@@ -53,8 +53,7 @@ Run `npm run build`
 <pre>
  Endpoints check
     √ should return http status 200 when called : /
-    √ should return http status 200 when called: orders/list (157ms)
-    √ should return http status 200 when called: orders/list (68ms)
+    √ should return http status 200 when called: orders/list (157ms)    
 
   MSSQL Server
     √ should connect to ms-sql server properly
@@ -75,7 +74,7 @@ Run `npm run build`
       √ should get order
 
 
-  11 passing (773ms)
+  10 passing (773ms)
 </pre>
 <pre>
   #Payments App:
