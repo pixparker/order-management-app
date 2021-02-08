@@ -1,6 +1,9 @@
 {
-    "/orders/": {
-      "target": "http://localhost:8001",
-      "secure": false      
+  "/api/*": {
+    "target": "http://localhost:8001",
+    "secure": false,
+    "pathRewrite": {
+      "^/api": ""
     }
   }
+}

@@ -28,19 +28,4 @@ describe('Endpoints check', () => {
           done();
         });
     });
-
-
-
-    it('should return http status 200 when called: orders/list', done => {
-      chai
-        .request(app)                
-        .get('/orders/all')
-        .set('authorization','mock')
-        .then((res) => {          
-          expect(res.status).to.equal(200);
-          done();
-        });
-    });
-
-
   });

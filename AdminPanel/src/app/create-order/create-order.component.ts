@@ -60,7 +60,7 @@ export class CreateOrderComponent implements OnInit {
       this.dialogRef.close(result);
     }
     catch(e){
-      this.snackBar.open("Error!")
+      this.snackBar.open("Error!",'',{duration:2000});
     } 
     finally{
       this.form.enable();

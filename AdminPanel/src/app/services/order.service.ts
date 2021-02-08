@@ -31,25 +31,27 @@ export class OrderService {
   
 
   public async getOrdersList():Promise<Order[]>{
-    const result = await this.httpClient.get('/orders/all').toPromise();    
+    const result = await this.httpClient.get('/api/orders/all').toPromise();    
     return result as any;
   }
 
 
   public async getOrderById(id:string):Promise<Order>{
-    const result = await this.httpClient.get('/orders/'+id).toPromise();
+    const result = await this.httpClient.get('/api/orders/'+id).toPromise();
     return result as any;
   }
 
   public async createOrder(order:Order):Promise<Order>{
-    const result = await this.httpClient.post<Order>('/orders/create',order).toPromise();
+    order.payAmount = order.payAmount || 0;
+    order.discount = order.discount || 0;
+    const result = await this.httpClient.post<Order>('/api/orders/create',order).toPromise();
     this.lastCreatedOrder = result;
     this.orderUpdate.next(result);
     return result;
   }
 
   public async cancelOrder(order:Order):Promise<boolean>{
-    const result =  await this.httpClient.post<Order>('/orders/cancel/'+order.id,{}).toPromise();
+    const result =  await this.httpClient.post<Order>('/api/orders/cancel/'+order.id,{}).toPromise();
     if(!result) return false;    
     const newOrder = JSON.parse(JSON.stringify(order));
     newOrder.state = OrderStates.Canceled;

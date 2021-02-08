@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { io } from 'socket.io-client';
+import {environment} from '../../environments/environment'
 
 @Injectable({
     providedIn: 'root'
@@ -20,7 +21,8 @@ export class WebsocketService {
 
     setupSocketConnection() {
         if (this.initialized) return;
-        this.socket = io("http://localhost:8001");
+        
+        this.socket = io(environment.socket);
         this.initialized = true;
     }
 }
