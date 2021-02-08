@@ -9,8 +9,7 @@ In order to setup development workspace make sure you did below steps:
 
 
 - Initial database with following query
-
-<pre>
+`
 CREATE TABLE [dbo].[Orders](
 	[Id] [uniqueidentifier] NOT NULL,
 	[CustomerName] [nvarchar](max) NULL,
@@ -28,7 +27,7 @@ CREATE TABLE [dbo].[Orders](
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
-</pre>
+`
 
 2- Change `OrdersApp\config.json` regarding your SQL configuration.
 
@@ -50,6 +49,7 @@ Run `npm run build`
 
 ## Test History
 #Orders App
+<pre>
  Endpoints check
     √ should return http status 200 when called : /
     √ should return http status 200 when called: orders/list (157ms)
@@ -75,8 +75,8 @@ Run `npm run build`
 
 
   11 passing (773ms)
-
-
+</pre>
+<per>
   #Payments App:
   Endpoints check
     √ should return confirmed or declined after called (70ms)
@@ -87,7 +87,7 @@ Run `npm run build`
 
 
   2 passing (130ms)
-
+</pre>
 
 
 
