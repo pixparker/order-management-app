@@ -92,7 +92,7 @@ Run `npm run build`
 
 ## Infrastructure
 
-(alt text)[]
+!(alt text)[/static-assets/infrastructure.PNG/?raw=true]
 
 
 
