@@ -39,6 +39,9 @@ CREATE TABLE [dbo].[Orders](
 
 5- Navigate to `http://localhost:4200/` 
 
+`Login with any user/password`
+
+<img src="/static-assets/dashboard.PNG?raw=true" width="400" />
 
 ## Test
 Run `npm run test` in `OrdersApp` and `PaymentsApp`
@@ -92,7 +95,7 @@ Run `npm run build`
 
 ## Infrastructure
 
-(alt text)[]
+![alt text](/static-assets/infrastructure.PNG/?raw=true)
 
 
 
