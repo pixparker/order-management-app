@@ -9,6 +9,7 @@ In order to setup development workspace make sure you did below steps:
 
 
 - Initial database with following query
+
 `
 CREATE TABLE [dbo].[Orders](
 	[Id] [uniqueidentifier] NOT NULL,
@@ -76,7 +77,7 @@ Run `npm run build`
 
   11 passing (773ms)
 </pre>
-<per>
+<pre>
   #Payments App:
   Endpoints check
     √ should return confirmed or declined after called (70ms)
