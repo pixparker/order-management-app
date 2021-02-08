@@ -3,7 +3,7 @@
         Orders List
         </h1>
         <div class="buttons">
-            <button mat-flat-button color="accent">New Order</button>
+            <button mat-flat-button color="accent" (click)="onCreate()">New Order</button>
         </div>
 </div>
 
@@ -56,7 +56,7 @@
         <th mat-header-cell *matHeaderCellDef> Actions </th>
         <td mat-cell *matCellDef="let element">
             <button class="right-margin" mat-stroked-button color="primary" (click)="onDetail(element)">Detail</button>
-            <button mat-stroked-button color="accent" (click)="onCancel(element)" [disabled]="element.state===2">Cancel</button>
+            <button mat-stroked-button color="accent" (click)="onCancelOrder(element)" [disabled]="element.state===2">Cancel</button>
             
         </td>
       </ng-container>

@@ -16,6 +16,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 
@@ -27,6 +28,7 @@ import { CreateOrderComponent } from './create-order/create-order.component';
 import { AuthInterceptor } from './http-interceptors/auth-interceptor';
 import {MatTableModule} from '@angular/material/table';
 import { CurrencyPipe, DateTimePipe } from './pipes';
+import { CancelOrderConfirmDialogComponent } from './cancel-order-confirm-dialog/cancel-order-confirm-dialog.component';
 
 
 
@@ -41,6 +43,7 @@ import { CurrencyPipe, DateTimePipe } from './pipes';
 
     DateTimePipe,
     CurrencyPipe,
+    CancelOrderConfirmDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -58,7 +61,8 @@ import { CurrencyPipe, DateTimePipe } from './pipes';
     HttpClientModule,
     MatTableModule,
     MatSnackBarModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatDialogModule
   ],
   exports:[
     MatInputModule,

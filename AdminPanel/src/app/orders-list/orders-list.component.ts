@@ -1,7 +1,9 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Order } from 'src/types/types';
+import { CreateOrderComponent } from '../create-order/create-order.component';
 import { OrderService } from '../services/order.service';
 
 @Component({
@@ -28,14 +30,14 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
   constructor(
     public router: Router,
     public orderService:OrderService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    public changeDetectorRef : ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.loadOrderList();
-   this.subscription =  this.orderService.orderUpdate$.subscribe(d=>{
-      console.log("observer:",d);
-    });
+   this.subscription =  this.orderService.orderUpdate$.subscribe(this.handleUpdateOrder.bind(this));
   }
 
   ngOnDestroy():void{
@@ -50,14 +52,27 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
 
   }
 
+  async onCreate(){
+    const dialogRef = this.dialog.open(CreateOrderComponent, {
+      width: '800px',
+      data: {}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result && result.id){
+        this.snackBar.open("Order created successfully",'',{
+          duration: 1000,
+        });
+      }
+      
+    });
+  }
 
   async onDetail(order:Order){
     this.router.navigate(['order-detail/'+order.id]);
-
   }
 
-
-  async onCancel(order:Order){
+  async onCancelOrder(order:Order){
     
     try{
       await this.orderService.cancelOrder(order);
@@ -69,16 +84,25 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
       this.snackBar.open('Error!','', {
         duration: 2000,
       });
-
     }
-    
-    
-    
   }
     
 
+  async handleUpdateOrder(order:Order){
+    if(!order) return;
+    const foundOrder = this.orders.filter(p=>p.id === order.id)[0];
+    if(foundOrder){
+      const index = this.orders.indexOf(order);
+      if(index>-1) this.orders[index] = order;
+    }
+    else{
+      this.orders.unshift(order);
+    }
 
+    const newList:Order[] = [];
+    this.orders.forEach(p=>newList.push(p));
+    this.orders = newList;
+    this.changeDetectorRef.detectChanges();
 
-
-
+  }
 }
