@@ -88,21 +88,19 @@ export class OrdersListComponent implements OnInit,OnDestroy  {
   }
     
 
-  async handleUpdateOrder(order:Order){
-    if(!order) return;
-    const foundOrder = this.orders.filter(p=>p.id === order.id)[0];
-    if(foundOrder){
-      const index = this.orders.indexOf(order);
-      if(index>-1) this.orders[index] = order;
+  async handleUpdateOrder(order: Order) {
+    if (!order) return;
+    let found = false;
+    for (let i = 0; i < this.orders.length; i++) {
+      if (this.orders[i].id == order.id) {
+        this.orders[i] = order;
+        found = true;
+      }
     }
-    else{
-      this.orders.unshift(order);
-    }
-
-    const newList:Order[] = [];
-    this.orders.forEach(p=>newList.push(p));
+    if (!found) this.orders.unshift(order);
+    const newList: Order[] = [];
+    this.orders.forEach(p => newList.push(p));
     this.orders = newList;
     this.changeDetectorRef.detectChanges();
-
   }
 }

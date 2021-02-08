@@ -37,9 +37,11 @@ export class OrderService {
   }
 
   public async cancelOrder(order:Order):Promise<boolean>{
-    await this.httpClient.post('/orders/cancel/'+order.id,{}).toPromise();    
-    order.state = OrderStates.Canceled;
-    this.orderUpdate.next(order);
+    const result =  await this.httpClient.post<Order>('/orders/cancel/'+order.id,{}).toPromise();
+    if(!result) return false;    
+    const newOrder = JSON.parse(JSON.stringify(order));
+    newOrder.state = OrderStates.Canceled;
+    this.orderUpdate.next(newOrder);
     return true;
   }
 
