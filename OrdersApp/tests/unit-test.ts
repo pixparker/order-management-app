@@ -16,10 +16,13 @@ describe('Order Service',async ()=>{
     describe('create order', async ()=>{
         afterEach(function() {
             (orderRepository.addNew as any).restore();
+            (orderService.processPayment as any).restore();
           });
 
           it('should insert new order',async()=>{
             sinon.stub(orderRepository, 'addNew').resolves(true);
+            sinon.stub(orderService,'processPayment').resolves(false);
+
             const order = await orderService.createOrder(orderMock as any);
             expect(order).to.deep.equal(orderMock);
         }); 
