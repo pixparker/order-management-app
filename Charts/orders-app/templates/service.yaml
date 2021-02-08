@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ template "orders-app.fullname" . }}
+  labels:
+    app: {{ template "orders-app.name" . }}
+    chart: {{ template "orders-app.chart" . }}
+    release: {{ .Release.Name }}
+    heritage: {{ .Release.Service }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - port: {{ .Values.service.port }}
+      targetPort: 3000
+      protocol: TCP
+      name: {{ .Values.service.portName }}
+  selector:
+    app: {{ template "orders-app.name" . }}
+    release: {{ .Release.Name }}
